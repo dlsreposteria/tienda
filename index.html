@@ -1,0 +1,278 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda DLS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"]
+          },
+          colors: {
+            brand: {
+              50: "#effcff",
+              100: "#d9f9fc",
+              500: "#59d6de",
+              600: "#43c2ca",
+              700: "#2eabb3",
+              900: "#1a7f85"
+            },
+            accent: {
+              500: "#ec1e8f",
+              600: "#d61780"
+            },
+            ink: {
+              800: "#2a2a2d",
+              900: "#1f1f22"
+            }
+          },
+          boxShadow: {
+            soft: "0 14px 34px -18px rgba(15, 23, 42, 0.28)",
+            card: "0 20px 50px -30px rgba(15, 23, 42, 0.35)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes pulseSoft {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(236, 30, 143, 0.22);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(236, 30, 143, 0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -300px 0;
+      }
+      100% {
+        background-position: 300px 0;
+      }
+    }
+
+    .product-enter {
+      animation: fadeUp 460ms cubic-bezier(.2, .7, .2, 1) both;
+    }
+
+    .pulse-soft {
+      animation: pulseSoft 1.8s infinite;
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f8fafc 37%, #e2e8f0 63%);
+      background-size: 400% 100%;
+      animation: shimmer 1.2s ease infinite;
+    }
+
+    @media (max-width: 1023px) {
+      #mobileHeader {
+        max-height: 32rem;
+        transition: max-height 260ms ease, opacity 220ms ease, transform 260ms ease, border-color 220ms ease;
+        overflow: hidden;
+      }
+
+      #mobileHeader.mobile-hidden {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-8px);
+        border-color: transparent;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased">
+  <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#d9f9fc_0%,_#ffe6f4_38%,_#f8fafc_100%)]"></div>
+
+  <header id="mobileHeader" class="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="abrirMenu"
+            class="inline-flex h-10 items-center gap-2 rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-brand-500 hover:text-brand-700 lg:hidden">
+            Categorias
+          </button>
+          <img src="imagenes/dls.png" alt="Logo DLS" class="h-12 w-auto rounded-xl bg-white p-1 shadow-sm sm:h-14" />
+          <div>
+            <h1 class="text-lg font-extrabold tracking-tight text-slate-900 sm:text-2xl">Tienda DLS</h1>
+            <p class="text-xs text-slate-500 sm:text-sm">Catalogo online de reposteria y gastronomia</p>
+          </div>
+        </div>
+
+        <div class="hidden text-right text-xs text-slate-600 md:block">
+          <p class="font-semibold text-slate-900">+54 9 353 564 9674</p>
+          <p>Salta 259 - Villa Maria, Cordoba</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="toggleCarrito"
+            class="pulse-soft inline-flex h-11 items-center gap-2 rounded-full bg-ink-900 px-4 text-sm font-semibold text-white shadow-soft transition hover:bg-ink-800">
+            Carrito
+            <span id="contadorCarrito"
+              class="inline-flex min-w-6 items-center justify-center rounded-full bg-white px-2 text-xs font-bold text-accent-600">0</span>
+          </button>
+          <button id="closeMobileHeader"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white/95 text-slate-600 shadow-sm transition hover:border-accent-500 hover:text-accent-600 lg:hidden"
+            aria-label="Ocultar encabezado">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 15 12 9 18 15"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4 grid gap-3 md:grid-cols-[1fr_auto]">
+        <div class="relative">
+          <input id="buscador" type="text" placeholder="Busca por producto, seccion, subseccion u oferta"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm shadow-soft outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100" />
+        </div>
+        <button id="limpiarBusqueda"
+          class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-500 hover:text-brand-700">
+          Limpiar
+        </button>
+      </div>
+
+      <p class="mt-3 text-sm text-slate-600">
+        Materia prima para reposteria, pasteleria y chocolateria. Descartables para gastronomia. Cotillon e impresiones 3D.
+      </p>
+      <div id="estadoBusqueda" class="mt-3 hidden text-sm font-semibold text-brand-700"></div>
+    </div>
+  </header>
+
+  <button id="openMobileHeader"
+    class="fixed right-4 top-4 z-40 hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-soft backdrop-blur transition hover:border-brand-500 hover:text-brand-700 lg:hidden"
+    aria-label="Mostrar encabezado">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div class="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <aside class="hidden rounded-3xl border border-slate-200 bg-white p-4 shadow-soft lg:sticky lg:top-28 lg:block lg:h-[calc(100vh-8.5rem)] lg:overflow-hidden">
+        <div class="mb-3 border-b border-slate-100 pb-3">
+          <h2 class="text-sm font-bold uppercase tracking-wide text-slate-500">Categorias</h2>
+          <p class="mt-1 text-xs text-slate-400">Filtra el catalogo por seccion</p>
+        </div>
+        <div id="listaSeccionesDesktop" class="flex h-[calc(100%-3.25rem)] flex-col gap-2 overflow-y-auto pr-1"></div>
+      </aside>
+
+      <section>
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">Productos</h2>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="inline-flex rounded-xl border border-slate-300 bg-white p-1 shadow-sm">
+              <button id="viewGrid" class="rounded-lg bg-accent-500 px-3 py-1.5 text-xs font-bold text-white">Grid</button>
+              <button id="viewList" class="rounded-lg px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:bg-slate-100">List</button>
+            </div>
+            <select id="sortSelect" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm outline-none focus:border-brand-500">
+              <option value="relevance">Relevancia</option>
+              <option value="price_asc">Precio menor a mayor</option>
+              <option value="price_desc">Precio mayor a menor</option>
+              <option value="offers">Mejores ofertas</option>
+            </select>
+            <div class="flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-2 py-1.5 shadow-sm">
+              <span class="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">Precio</span>
+              <input id="priceMin" type="number" min="0" placeholder="Min"
+                class="w-20 rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 outline-none focus:border-brand-500" />
+              <span class="text-xs text-slate-400">-</span>
+              <input id="priceMax" type="number" min="0" placeholder="Max"
+                class="w-20 rounded-lg border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-700 outline-none focus:border-brand-500" />
+              <button id="clearPriceFilter" class="rounded-lg px-2 py-1 text-[11px] font-bold text-slate-500 transition hover:bg-slate-100">Reset</button>
+            </div>
+            <p id="estadoPaginado" class="text-xs font-semibold text-slate-500"></p>
+          </div>
+        </div>
+
+        <div id="categoryHero" class="mb-4 hidden overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+          <div id="categoryHeroContent" class="relative px-5 py-6 sm:px-7"></div>
+        </div>
+
+        <div id="productos" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"></div>
+
+        <div id="loaderProductos" class="hidden py-5 text-center text-sm font-semibold text-brand-700">
+          Cargando mas productos...
+        </div>
+
+        <div id="infiniteSentinel" class="h-3 w-full"></div>
+      </section>
+    </div>
+  </main>
+
+  <button id="subirArriba"
+    class="fixed bottom-6 right-6 z-20 hidden h-12 w-12 rounded-full bg-accent-500 text-lg font-bold text-white shadow-soft transition hover:bg-accent-600"
+    aria-label="Subir arriba">
+    ^
+  </button>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 hidden bg-slate-950/50"></div>
+  <aside id="menuLateral"
+    class="fixed inset-y-0 left-0 z-50 w-80 max-w-[88vw] -translate-x-full border-r border-slate-200 bg-white transition-transform duration-300">
+    <div class="flex h-full flex-col">
+      <div class="flex items-center justify-between border-b border-slate-200 px-4 py-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Menu</p>
+          <h2 class="text-lg font-bold text-slate-900">Categorias</h2>
+        </div>
+        <button id="cerrarMenu"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-600 hover:border-brand-500 hover:text-brand-700">
+          x
+        </button>
+      </div>
+      <div id="listaSecciones" class="flex-1 space-y-2 overflow-y-auto p-4"></div>
+    </div>
+  </aside>
+
+  <div id="carritoOverlay" class="fixed inset-0 z-40 hidden bg-slate-950/50"></div>
+  <aside id="carrito"
+    class="fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-full translate-x-full flex-col border-l border-slate-200 bg-white transition-transform duration-300">
+    <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Resumen</p>
+        <h2 class="text-lg font-bold text-slate-900">Tu carrito</h2>
+      </div>
+      <button id="cerrarCarrito"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-600 hover:border-brand-500 hover:text-brand-700">
+        x
+      </button>
+    </div>
+
+    <div id="listaCarrito" class="flex-1 space-y-3 overflow-y-auto px-5 py-4"></div>
+
+    <div class="border-t border-slate-200 px-5 py-4">
+      <div class="flex items-center justify-between text-base font-semibold text-slate-900">
+        <span>Total</span>
+        <span id="totalCarrito">$0</span>
+      </div>
+      <button id="finalizarCompra"
+        class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-600">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="h-5 w-5" />
+        Finalizar compra
+      </button>
+    </div>
+  </aside>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
